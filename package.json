@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/apsinghdev/dmps/issues"
   },
-  "homepage": "https://github.com/apsinghdev/dmps#readme"
+  "homepage": "https://github.com/apsinghdev/dmps#readme",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
 }
