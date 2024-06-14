@@ -1,0 +1,19 @@
+{
+  "name": "dmps",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/apsinghdev/dmps/issues"
+  },
+  "homepage": "https://github.com/apsinghdev/dmps#readme"
+}
