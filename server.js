@@ -10,4 +10,6 @@ App.use('/hi', (req, res) => {
     res.send({hi: 'hi'})
 });
 
-App.listen(PORT);
+App.listen(PORT, () => {
+    console.log(`Server's up and running on port ${PORT} `);
+});
