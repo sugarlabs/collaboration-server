@@ -3,20 +3,23 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon server.js"
   },
   "repository": {
     "type": "git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Ajeet Pratap Singh",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/apsinghdev/dmps/issues"
   },
   "homepage": "https://github.com/apsinghdev/dmps#readme",
   "dependencies": {
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "nodemon": "^3.1.3"
   }
 }
