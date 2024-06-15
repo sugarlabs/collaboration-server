@@ -23,8 +23,8 @@ io.on("connection", (socket) => {
   });
 });
 
-app.get("/hi", (req, res) => {
-  res.send({ hi: "hi user" });
+app.get("/test", (req, res) => {
+  res.send(JSON.stringify({ ok: true }));
 });
 
 app.listen(PORT, () => {
