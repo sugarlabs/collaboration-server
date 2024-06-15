@@ -1,15 +1,32 @@
-import Express from 'express';
-import cors from 'cors';
+import Express from "express";
+import cors from "cors";
+import * as http from "http";
+import { Server } from "socket.io";
+import { YSocketIO } from "y-socket.io/dist/server";
 
-const App = Express();
+const app = Express();
 const PORT = 5000;
 
-App.use(cors({origin: '*'}));
+app.use(cors({ origin: "*" }));
 
-App.use('/hi', (req, res) => {
-    res.send({hi: 'hi'})
+const server = http.createServer(app);
+
+const io = new Server(server);
+const ysocketio = new YSocketIO(io, {});
+ysocketio.initialize();
+
+io.on("connection", (socket) => {
+  console.log(`[connection] connected with user: ${socket.id}`);
+
+  socket.on("disconnect", () => {
+    console.log(`[disconnected] disconnected with user: ${socket.id}`);
+  });
 });
 
-App.listen(PORT, () => {
-    console.log(`Server's up and running on port ${PORT} `);
+app.get("/hi", (req, res) => {
+  res.send({ hi: "hi user" });
+});
+
+app.listen(PORT, () => {
+  console.log(`Server's up and running on port ${PORT} `);
 });
