@@ -18,10 +18,26 @@ ysocketio.initialize();
 io.on("connection", (socket) => {
   console.log(`[connection] connected with user: ${socket.id}`);
 
+  socket.on('joinRoom', (room) => {
+    socket.join(room);
+    console.log(`User joined room: ${room}`);
+  });
+
+  socket.on("message", (room, message) => {
+    io.to(room).emit(message);
+  })
+
+  socket.on("leaveRoom", (room) => {
+    socket.leave(room);
+    console.log(`User left the room: ${room}`);
+  })
+
   socket.on("disconnect", () => {
     console.log(`[disconnected] disconnected with user: ${socket.id}`);
   });
 });
+
+
 
 app.get("/test", (req, res) => {
   res.send(JSON.stringify({ ok: true }));
