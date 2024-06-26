@@ -3,9 +3,13 @@ import cors from "cors";
 import * as http from "http";
 import { Server } from "socket.io";
 import { YSocketIO } from "y-socket.io/dist/server";
+import * as Y from "yjs";
 
 const app = Express();
 const PORT = 5000;
+
+// Map to store yjs docs by room name
+const docs = new Map();
 
 app.use(cors({ origin: "*" }));
 
@@ -19,6 +23,10 @@ io.on("connection", (socket) => {
   console.log(`[connection] connected with user: ${socket.id}`);
 
   socket.on('joinRoom', (room) => {
+    if(!docs.has(room)){
+      const ydoc = new Y.Doc();
+      docs.set(room, ydoc);
+    }
     socket.join(room);
     console.log(`User joined room: ${room}`);
   });
