@@ -35,29 +35,28 @@ io.on("connection", (socket) => {
     socket.emit('message', 'Server received: ' + msg);
   });
 
-  // socket.on("new-block-added", (data) => {
-  //   const {room_id, update} = data;
-  //   socket.to(room_id).emit("new-block-added", update);
-  //   console.log(`user ${socket.id} sent the changes in room ${room_id}`);
-  // })
-  socket.on("new-block-added", update => {
-    socket.broadcast.emit("new-block-added", update);
-    console.log(`user ${socket.id} sent the changes`);
+  socket.on("new-block-added", (data) => {
+    const {room_id, update} = data;
+    socket.to(room_id).emit("new-block-added", update);
+    console.log(`user ${socket.id} sent the changes in room ${room_id}`);
   })
 
-  socket.on("new-block-deleted", update => {
-  socket.broadcast.emit("new-block-deleted", update);
-  console.log(`user ${socket.id} deleted the block`);
+  socket.on("new-block-deleted", (data) => {
+  const {room_id, update} = data;
+  socket.to(room_id).emit("new-block-deleted", update);
+  console.log(`user ${socket.id} deleted the block in room ${room_id}`);
   })
 
-  socket.on("block-moved/connected/disconnected", update => {
-  socket.broadcast.emit("block-moved/connected/disconnected", update);
-  console.log(`user ${socket.id} changed the block`);
+  socket.on("block-moved/connected/disconnected", (data) => {
+  const {room_id, update} = data;
+  socket.to(room_id).emit("block-moved/connected/disconnected", update);
+  console.log(`user ${socket.id} changed the block in room ${room_id}`);
   })
 
-  socket.on("block-value-updated", update => {
-  socket.broadcast.emit("block-value-updated", update);
-  console.log(`user ${socket.id} changed the value of a block`);
+  socket.on("block-value-updated", (data) => {
+  const {room_id, update} = data;
+  socket.to(room_id).emit("block-value-updated", update);
+  console.log(`user ${socket.id} changed the value of a block in room ${room_id}`);
   })
 
   socket.on("disconnect", () => {
