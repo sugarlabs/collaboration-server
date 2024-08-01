@@ -6,4 +6,4 @@
 2. cd into the repo ( make sure you are in the `dmps` repo )
 3. run `npm install`
 4. run `npm run server`
-5. Congrats! You socket server is running on PORT `5000`
+5. Congrats! You socket server is running on PORT `8080`
