@@ -18,6 +18,7 @@ const server = http.createServer(app);
 
 // Create Socket.IO server
 const io = new Server(server, {cors: {origin: "*", methods: ["GET", "POST"]}});
+const rooms = new Map();
 
 // Socket.IO connection event
 io.on("connection", (socket) => {
@@ -25,9 +26,33 @@ io.on("connection", (socket) => {
 
 //  io.to(socket.id).emit(console.log("connected in room"));
 
-  socket.on("joinRoom", (room_id) => {
+  socket.on("joinRoom", ({room_id, name}) => {
     socket.join(room_id);
+
+    if(!rooms.has(room_id)){
+	rooms.set(room_id, new Set);
+  };
+
+    const room = rooms.get(room_id);
+    room.add(socket.id);
+
+//    if (room.size > 1) {
+
+//    socket.emit("add-existing-names", Array.from(room).map((id, name) => ({id, name})));
+
+//    socket.to(room_id).emit("add-new-name", {id: socket.id, name});
+
+    socket.emit("existing-cursor", Array.from(room).map(id => ({id})));
+
+    socket.to(room_id).emit("new-cursor", {id: socket.id});
+
+// }
+
     console.log(`User ${socket.id} joined room ${room_id}`);
+  })
+  socket.on("mouse-move", (data) => {
+    const { room_id, x, y } = data;
+    socket.to(room_id).emit("mouse-move", {socket_id: socket.id, x, y});
   })
 
   socket.on("message", (msg) => {
@@ -60,6 +85,16 @@ io.on("connection", (socket) => {
   })
 
   socket.on("disconnect", () => {
+    rooms.forEach((room, room_id) => {
+      if(room.has(socket.id)){
+      room.delete(socket.id);
+      io.to(room_id).emit("remove-cursor", socket.id)
+	if(room.size === 0){
+	rooms.delete(room_id);
+        console.log(`Room ${room_id} has been removed`);
+    }
+    }
+   })
     console.log(`user disconnected: ${socket.id}`);
   });
 });

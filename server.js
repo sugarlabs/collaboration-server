@@ -17,13 +17,13 @@ app.use(cors({ origin: "*" }));
 const server = http.createServer(app);
 
 // Create Socket.IO server
-const io = new Server(server, {cors: {origin: "*", methods: ["GET", "POST"]}});
+const io = new Server(server, { cors: { origin: "*", methods: ["GET", "POST"] } });
 
 // Socket.IO connection event
 io.on("connection", (socket) => {
   console.log(`[connection] connected with user: ${socket.id}`);
 
-//  io.to(socket.id).emit(console.log("connected in room"));
+  //  io.to(socket.id).emit(console.log("connected in room"));
 
   socket.on("joinRoom", (room_id) => {
     socket.join(room_id);
@@ -46,18 +46,18 @@ io.on("connection", (socket) => {
   })
 
   socket.on("new-block-deleted", update => {
-  socket.broadcast.emit("new-block-deleted", update);
-  console.log(`user ${socket.id} deleted the block`);
+    socket.broadcast.emit("new-block-deleted", update);
+    console.log(`user ${socket.id} deleted the block`);
   })
 
   socket.on("block-moved/connected/disconnected", update => {
-  socket.broadcast.emit("block-moved/connected/disconnected", update);
-  console.log(`user ${socket.id} changed the block`);
+    socket.broadcast.emit("block-moved/connected/disconnected", update);
+    console.log(`user ${socket.id} changed the block`);
   })
 
   socket.on("block-value-updated", update => {
-  socket.broadcast.emit("block-value-updated", update);
-  console.log(`user ${socket.id} changed the value of a block`);
+    socket.broadcast.emit("block-value-updated", update);
+    console.log(`user ${socket.id} changed the value of a block`);
   })
 
   socket.on("disconnect", () => {
