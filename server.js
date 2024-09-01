@@ -3,8 +3,12 @@ import cors from "cors";
 import * as http from "http";
 import { Server } from "socket.io";
 import dotenv from "dotenv";
+import morgan from "morgan";
 
 dotenv.config();
+
+// Log the middleware
+app.use(morgan('combined'));
 
 const app = express();
 const PORT = process.env.PORT || 8080;
