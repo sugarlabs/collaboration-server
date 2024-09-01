@@ -9,6 +9,7 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 8080;
+console.log("port", PORT);
 
 // Log the middleware
 app.use(morgan('combined'));
