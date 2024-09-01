@@ -7,11 +7,11 @@ import morgan from "morgan";
 
 dotenv.config();
 
-// Log the middleware
-app.use(morgan('combined'));
-
 const app = express();
 const PORT = process.env.PORT || 8080;
+
+// Log the middleware
+app.use(morgan('combined'));
 
 app.use(cors({
   origin: process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : '*',
