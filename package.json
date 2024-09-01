@@ -12,9 +12,9 @@
   "author": "Ajeet Pratap Singh",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/apsinghdev/dmps/issues"
+    "url": "https://github.com/apsinghdev/collaboration-server/issues"
   },
-  "homepage": "https://github.com/apsinghdev/dmps#readme",
+  "homepage": "https://github.com/apsinghdev/collaboration-server#readme",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.19.2",
