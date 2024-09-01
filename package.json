@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "nodemon server2.js"
+    "server": "nodemon server.js"
   },
   "keywords": [],
   "author": "Ajeet Pratap Singh",
