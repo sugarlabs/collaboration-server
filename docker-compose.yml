@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  collaboration-server:
+    image: collaboration-server:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/usr/src/collaboration-server # update as per your local path
+    environment:
+      NODE_ENV: development
+    command: ["npm", "run", "server"]
