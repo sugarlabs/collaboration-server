@@ -1,6 +1,6 @@
 FROM node:21.6.0-alpine
 
-WORKDIR /usr/src/dmps
+WORKDIR /usr/src/collaboration-server
 
 COPY package*.json ./
 
