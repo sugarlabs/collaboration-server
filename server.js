@@ -98,7 +98,7 @@ io.on("connection", (socket) => {
 
 // Simple test endpoint
 app.get("/test", (req, res) => {
-  res.send(JSON.stringify({ ok: true }));
+  res.json({ ok: true });
 });
 
 server.listen(PORT, () => {
