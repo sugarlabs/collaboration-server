@@ -51,11 +51,6 @@ io.on("connection", (socket) => {
     socket.to(room_id).emit("mouse-move", { socket_id: socket.id, x, y, scrollx, scrolly });
   })
 
-  socket.on("message", (msg) => {
-    console.log('message: ' + msg);
-    socket.emit('message', 'Server received: ' + msg);
-  });
-
   socket.on("new-block-added", (data) => {
     const { room_id, update } = data;
     socket.to(room_id).emit("new-block-added", update);
