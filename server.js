@@ -44,6 +44,20 @@ const handleJoinRoom = (socket, { room_id, name }) => {
   console.log(`User ${socket.id} joined room ${room_id}`);
 };
 
+const handleDisconnect = (socket) => {
+  rooms.forEach((room, room_id) => {
+    if (room.has(socket.id)) {
+      room.delete(socket.id);
+      io.to(room_id).emit("remove-cursor", socket.id)
+      if (room.size === 0) {
+        rooms.delete(room_id);
+        console.log(`Room ${room_id} has been removed`);
+      }
+    }
+  })
+  console.log(`User disconnected: ${socket.id}`);
+}
+
 io.on("connection", (socket) => {
   console.log(`[connection] connected with user: ${socket.id}`);
 
@@ -78,19 +92,7 @@ io.on("connection", (socket) => {
     console.log(`User ${socket.id} changed the value of a block in room ${room_id}`);
   })
 
-  socket.on("disconnect", () => {
-    rooms.forEach((room, room_id) => {
-      if (room.has(socket.id)) {
-        room.delete(socket.id);
-        io.to(room_id).emit("remove-cursor", socket.id)
-        if (room.size === 0) {
-          rooms.delete(room_id);
-          console.log(`Room ${room_id} has been removed`);
-        }
-      }
-    })
-    console.log(`User disconnected: ${socket.id}`);
-  });
+  socket.on("disconnect", () => handleDisconnect(socket));
 });
 
 // Simple test endpoint
