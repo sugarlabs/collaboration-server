@@ -23,29 +23,32 @@ const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: "*", methods: ["GET", "POST"] } });
 const rooms = new Map();
 
+const handleJoinRoom = (socket, { room_id, name }) => {
+  socket.join(room_id);
+
+  if (!rooms.has(room_id)) {
+    rooms.set(room_id, new Map);
+  };
+
+  const room = rooms.get(room_id);
+  room.set(socket.id, name);
+
+  socket.emit("add-existing-names", Array.from(room).map(([id, name]) => ({ id, name })));
+
+  socket.to(room_id).emit("add-new-name", { id: socket.id, name });
+
+  socket.emit("existing-cursor", Array.from(room).map(id => ({ id })));
+
+  socket.to(room_id).emit("new-cursor", { id: socket.id });
+
+  console.log(`User ${socket.id} joined room ${room_id}`);
+};
+
 io.on("connection", (socket) => {
   console.log(`[connection] connected with user: ${socket.id}`);
 
-  socket.on("joinRoom", ({ room_id, name }) => {
-    socket.join(room_id);
+  socket.on("joinRoom", (data) => handleJoinRoom(socket, data));
 
-    if (!rooms.has(room_id)) {
-      rooms.set(room_id, new Map);
-    };
-
-    const room = rooms.get(room_id);
-    room.set(socket.id, name);
-
-    socket.emit("add-existing-names", Array.from(room).map(([id, name]) => ({ id, name })));
-
-    socket.to(room_id).emit("add-new-name", { id: socket.id, name });
-
-    socket.emit("existing-cursor", Array.from(room).map(id => ({ id })));
-
-    socket.to(room_id).emit("new-cursor", { id: socket.id });
-
-    console.log(`User ${socket.id} joined room ${room_id}`);
-  })
   socket.on("mouse-move", (data) => {
     const { room_id, x, y, scrollx, scrolly } = data;
     socket.to(room_id).emit("mouse-move", { socket_id: socket.id, x, y, scrollx, scrolly });
