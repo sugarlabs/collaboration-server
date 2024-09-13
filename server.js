@@ -16,7 +16,7 @@ app.use(morgan('combined'));
 app.use(cors({
   origin: process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'application/json']
+  allowedHeaders: ['Content-Type']
 }));
 
 const server = http.createServer(app);
