@@ -92,6 +92,15 @@ io.on("connection", (socket) => {
     console.log(`User ${socket.id} changed the value of a block in room ${room_id}`);
   })
 
+  socket.on("exit-collaboration", ({ room_id }) => {
+    if (rooms.has(room_id)) {
+      const room = rooms.get(room_id);
+      const usersArray = Array.from(room).map(([id, name]) => (id));
+      socket.emit("exit-collaboration", usersArray);
+      console.log(`User ${socket.id} exited the collaboration`);
+    }
+  })
+
   socket.on("disconnect", () => handleDisconnect(socket));
 });
 
